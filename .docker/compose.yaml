@@ -15,4 +15,5 @@ services:
     volumes:
       - ../sql:/sql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: ["postgres", "-c", "log_statement=all"]
     restart: always
