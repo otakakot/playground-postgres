@@ -24,5 +24,17 @@ psql:
 	@docker exec -it postgres psql -U postgres
 
 .PHONY: sql
-sql:
+sql: ## ex) make sql f=sql/xxx.sql
 	@docker exec -it postgres psql -U postgres -f ${f}
+
+.PHONY: atlasinspect
+atlasinspect:
+	@atlas schema inspect -u ${DATABASE_URL} > schema.hcl
+
+.PHONY: atlasapply
+atlasapply:
+	@atlas schema apply -u ${DATABASE_URL} --to file://schema.hcl --auto-approve
+
+.PHONY: atlasfmt
+atlasfmt:
+	@atlas schema fmt schema.hcl
