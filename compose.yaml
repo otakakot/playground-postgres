@@ -14,6 +14,6 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - ./sql:/sql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./schema:/docker-entrypoint-initdb.d
     command: ["postgres", "-c", "log_statement=all"]
     restart: always

@@ -15,10 +15,6 @@ up: ## docker compose up with air hot reload
 down: ## docker compose down
 	@docker compose --project-name ${APP_NAME} down --volumes
 
-.PHONY: balus
-balus: ## destroy everything about docker. (containers, images, volumes, networks.)
-	@docker compose --project-name ${APP_NAME} down --rmi all --volumes
-
 .PHONY: psql
 psql:
 	@docker exec -it postgres psql -U postgres
@@ -26,15 +22,3 @@ psql:
 .PHONY: sql
 sql: ## ex) make sql f=sql/xxx.sql
 	@docker exec -it postgres psql -U postgres -f ${f}
-
-.PHONY: atlasinspect
-atlasinspect:
-	@atlas schema inspect -u ${DATABASE_URL} > schema.hcl
-
-.PHONY: atlasapply
-atlasapply:
-	@atlas schema apply -u ${DATABASE_URL} --to file://schema.hcl --auto-approve
-
-.PHONY: atlasfmt
-atlasfmt:
-	@atlas schema fmt schema.hcl
