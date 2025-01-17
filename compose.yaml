@@ -17,3 +17,45 @@ services:
       - ./schema:/docker-entrypoint-initdb.d
     command: ["postgres", "-c", "log_statement=all"]
     restart: always
+  postgres-primary:
+    container_name: postgres-primary
+    image: postgres:17-alpine
+    ports:
+      - 54321:5432
+    environment:
+      TZ: UTC
+      LANG: ja_JP.UTF-8
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - ./sql:/sql
+      - ./schema:/docker-entrypoint-initdb.d
+    command: |
+      postgres
+      -c log_statement=all
+      -c wal_level=logical
+    restart: always
+  postgres-secondary:
+    container_name: postgres-secondary
+    image: postgres:17-alpine
+    ports:
+      - 54322:5432
+    environment:
+      TZ: UTC
+      LANG: ja_JP.UTF-8
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - ./sql:/sql
+      - ./schema:/docker-entrypoint-initdb.d
+    command: |
+      postgres
+      -c log_statement=all
+      -c wal_level=logical
+    restart: always

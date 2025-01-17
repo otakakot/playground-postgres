@@ -19,6 +19,22 @@ down: ## docker compose down
 psql:
 	@docker exec -it postgres psql -U postgres
 
+.PHONY: prmpsql
+prmpsql:
+	@docker exec -it postgres-primary psql -U postgres
+
+.PHONY: secpsql
+secpsql:
+	@docker exec -it postgres-secondary psql -U postgres
+
 .PHONY: sql
 sql: ## ex) make sql f=sql/xxx.sql
 	@docker exec -it postgres psql -U postgres -f ${f}
+
+.PHONY: prmsql
+prmsql: ## ex) make prmsql f=sql/xxx.sql
+	@docker exec -it postgres-primary psql -U postgres -f ${f}
+
+.PHONY: secsql
+secsql: ## ex) make secsql f=sql/xxx.sql
+	@docker exec -it postgres-secondary psql -U postgres -f ${f}
