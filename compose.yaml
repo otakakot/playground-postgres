@@ -1,7 +1,7 @@
 services:
   postgres:
     container_name: postgres
-    image: postgres:17-alpine
+    image: postgres:18-alpine
     ports:
       - 5432:5432
     environment:
@@ -19,7 +19,7 @@ services:
     restart: always
   postgres-primary:
     container_name: postgres-primary
-    image: postgres:17-alpine
+    image: postgres:18-alpine
     ports:
       - 54321:5432
     environment:
@@ -40,7 +40,7 @@ services:
     restart: always
   postgres-secondary:
     container_name: postgres-secondary
-    image: postgres:17-alpine
+    image: postgres:18-alpine
     ports:
       - 54322:5432
     environment:
